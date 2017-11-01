@@ -1,8 +1,9 @@
 #! /usr/bin/env bash
 
-cd /home/ubuntu/geonode;
+cd /vagrant/geonode;
 nohup sudo paver start_geoserver &
 
-sleep 40;
+sleep 30;
 
-python manage.py runserver 0.0.0.0:8000;
+# cd /vagrant/coat_geonode;
+# python manage.py runserver 0.0.0.0:8000;

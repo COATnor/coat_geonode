@@ -3,8 +3,7 @@
 sudo apt-get update;
 sudo apt-get install -y python-pip git;
 
-cd /home/ubuntu;
-git clone https://github.com/NINAnor/coat_geonode.git;
+cd /vagrant/;
 git clone -b 2.6.x https://github.com/GeoNode/geonode.git;
 # install manually because pip can not install binary dependencies
 sudo apt-get install python-shapely -y;
@@ -32,3 +31,32 @@ mkdir /opt/jdk;
 tar -zxf jdk.tar.gz -C /opt/jdk;
 update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_152/bin/java 100;
 update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_152/bin/javac 100;
+
+# install PostgreSQL
+sudo apt-get update;
+sudo apt-get install -y \
+    postgresql             \
+    postgis                \
+    postgresql-9.5-postgis-scripts \
+    postgresql-contrib;
+
+# create user
+sudo -u postgres psql -c "CREATE USER geonode WITH PASSWORD 'geonode'"
+# create databases
+sudo -u postgres createdb -O geonode geonode
+sudo -u postgres createdb -O geonode geonode_data
+sudo -u postgres psql -d geonode_data -c 'CREATE EXTENSION postgis;'
+sudo -u postgres psql -d geonode_data -c 'GRANT ALL ON geometry_columns TO PUBLIC;'
+sudo -u postgres psql -d geonode_data -c 'GRANT ALL ON spatial_ref_sys TO PUBLIC;'
+
+# replace a line in the pg_hba.conf file for PostgreSQL
+sudo sh -c "sed -e 's/local   all             all                                     peer/local   all             all                                     trust/' < /etc/postgresql/9.5/main/pg_hba.conf > /etc/postgresql/9.5/main/pg_hba.conf.tmp";
+sudo mv /etc/postgresql/9.5/main/pg_hba.conf.tmp /etc/postgresql/9.5/main/pg_hba.conf;
+sudo service postgresql restart;
+
+# migrate COAT
+cd /vagrant/coat_geonode;
+python manage.py migrate;
+
+
+
