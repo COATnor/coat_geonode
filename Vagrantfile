@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 8000, host: 8000
 
     config.vm.provision :shell, path: "provision/main.sh"
-	config.vm.provision :shell, path: "provision/start.sh", run: 'always'
+	config.vm.provision :shell, path: "provision/start_geoserver.sh", run: 'always'
 
     config.vm.provider "virtualbox" do |vb|
       # vb.gui = true
