@@ -3,7 +3,7 @@
 sudo apt-get update;
 sudo apt-get install -y python-pip git;
 
-cd /vagrant/;
+cd /vagrant/coat_geonode;
 git clone -b 2.6.x https://github.com/GeoNode/geonode.git;
 # install manually because pip can not install binary dependencies
 sudo apt-get install python-shapely -y;
