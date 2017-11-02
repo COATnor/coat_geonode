@@ -13,20 +13,21 @@ Quick Start
 -----------
 
 First bring COAT virtual machine up:
-```
-vagrant up
-```
+
+.. code-block::
+
+   vagrant up
 
 GeoServer starts automatically. To start GeoNode log in to COAT virtual machine
 and go to the synchronized directory. Then start GeoNode.
 
-```
-vagrant ssh
+.. code-block::
 
-cd /vagrant/coat_geonode
+   vagrant ssh
 
-./start_geonode.sh
-```
+   cd /vagrant/coat_geonode
+
+   ./start_geonode.sh
 
 GeoServer runs on http://127.0.0.1:8080/geoserver/web/ on your host machine.
 For GeoNode it is http://127.0.0.1:8000/.
