@@ -2,6 +2,7 @@
 
 sudo apt-get update;
 sudo apt-get install -y python-pip git;
+pip install --upgrade pip;
 
 cd /vagrant/coat_geonode;
 git clone -b 2.6.x https://github.com/GeoNode/geonode.git;
