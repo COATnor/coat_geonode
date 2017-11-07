@@ -44,10 +44,10 @@ DATABASES = {
 }
 
 GEOSERVER_LOCATION = os.getenv(
-    'GEOSERVER_LOCATION', 'http://localhost:8081/geoserver/'
+    'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
 )
 GEOSERVER_PUBLIC_LOCATION = os.getenv(
-    'GEOSERVER_PUBLIC_LOCATION', 'http://localhost:8081/geoserver/'
+    'GEOSERVER_PUBLIC_LOCATION', 'http://localhost:8080/geoserver/'
 )
 
 # OGC (WMS/WFS/WCS) Server Settings
