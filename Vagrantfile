@@ -3,69 +3,31 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # config.vm.box = "xenial32"
-  # config.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-i386-vagrant.box"
+  # Ubuntu 64 bit
   config.vm.box = "xenial64"
   config.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
   config.vm.hostname = "coat"
+
+  # synced folder
   config.vm.synced_folder ".", "/vagrant/coat_geonode"
 
-  # config.ssh.forward_agent = true
-
   config.vm.define "coat" do |server|
+    # port forwarding
     config.vm.network "forwarded_port", guest: 8080, host: 8080
     config.vm.network "forwarded_port", guest: 8000, host: 8000
 
+    # provision script that runs when creating virtual machine
     config.vm.provision :shell, path: "provision/main.sh"
+
+    # script that runs always
+    # starts GeoServer
 	config.vm.provision :shell, path: "provision/start_geoserver.sh", run: 'always'
 
     config.vm.provider "virtualbox" do |vb|
-      # vb.gui = true
-
+      # RAM
       vb.customize ["modifyvm", :id, "--memory", "2048"]
+      # CPU
       vb.customize ["modifyvm", :id, "--cpus", "2"]
-      vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
     end
   end
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
-  # such as FTP and Heroku are also available. See the documentation at
-  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end
