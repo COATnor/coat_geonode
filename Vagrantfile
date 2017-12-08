@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
 
     # script that runs always
     # starts GeoServer
-	config.vm.provision :shell, path: "provision/start_geoserver.sh", run: 'always'
+	config.vm.provision :shell, path: "vagrant-provision/start_geoserver.sh", run: 'always'
 
     config.vm.provider "virtualbox" do |vb|
       # RAM
