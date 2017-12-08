@@ -29,9 +29,7 @@ and go to the synchronized directory. Then start GeoNode.
 .. code-block::
 
    vagrant ssh
-
    cd /vagrant/coat_geonode
-
    ./start_geonode.sh
 
 GeoServer runs on http://127.0.0.1:8080/geoserver/web/ on your host machine.
