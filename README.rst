@@ -51,7 +51,8 @@ Then create a container with forwarded ports and run it in interactive mode:
 
    docker run -it -v $(pwd):/root -p 8000:8000 -p 8080:8080 --name coat coat
 
-When you are "in the container" setup Paver:
+When you are "in the container" setup Paver. This step is required to do
+only once.
 
 .. code-block::
 
