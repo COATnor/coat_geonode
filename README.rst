@@ -38,18 +38,18 @@ For GeoNode it is http://127.0.0.1:8000/.
 Docker
 """"""
 
-Build an image and clone GeoNode code to your host:
+Download COAT Docker image and clone GeoNode code to your host:
 
 .. code-block::
 
-   docker build -t coat .
+   docker pull ninanor/coat_geonode
    git clone -b 2.6.x https://github.com/GeoNode/geonode.git
 
 Then create a container with forwarded ports and run it in interactive mode:
 
 .. code-block::
 
-   docker run -it -v $(pwd):/root -p 8000:8000 -p 8080:8080 --name coat coat
+   docker run -it -v $(pwd):/root -p 8000:8000 -p 8080:8080 --name coat ninanor/coat_geonode
 
 When you are "in the container" setup Paver. This step is required to do
 only once.
