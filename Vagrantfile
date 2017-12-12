@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "forwarded_port", guest: 8000, host: 8000
 
     # provision script that runs when creating virtual machine
-    config.vm.provision :shell, path: "provision/main.sh"
+    config.vm.provision :shell, path: "vagrant-provision/main.sh"
 
     # script that runs always
     # starts GeoServer
