@@ -17,7 +17,14 @@ You can choose Vagrant or Docker.
 Vagrant
 """""""
 
-First bring COAT virtual machine up:
+Clone COAT GeoNode code and go to the downloaded directory:
+
+.. code-block::
+
+   git clone https://github.com/NINAnor/coat_geonode.git
+   cd coat_geonode
+
+Bring COAT virtual machine up:
 
 .. code-block::
 
@@ -37,6 +44,13 @@ For GeoNode it is http://127.0.0.1:8000/.
 
 Docker
 """"""
+
+Clone COAT GeoNode code and go to the downloaded directory:
+
+.. code-block::
+
+   git clone https://github.com/NINAnor/coat_geonode.git
+   cd coat_geonode
 
 Download COAT Docker image and clone GeoNode code to your host:
 
