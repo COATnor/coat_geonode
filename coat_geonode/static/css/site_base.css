@@ -1,0 +1,13 @@
+.navbar-brand {
+    background: url(../img/cropped-coat_logo_black2014_tr.png) 0 0 no-repeat;
+    background-size: 100%;
+    text-indent: -9999px;
+    height: 100px;
+    width: 100px;
+}
+
+
+.home .jumbotron {
+    background: url(../img/Varanger_regnbue_JakobIglhaut_crop3.jpg)  no-repeat fixed;
+    padding-bottom: 20px;
+}
