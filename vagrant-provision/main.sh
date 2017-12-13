@@ -20,8 +20,6 @@ sudo apt-get install -y python-gdal;
 
 python manage.py migrate;
 
-# create user 'admin'
-echo "from django.contrib.auth.models import User; User.objects.filter(email='admin@example.com').delete(); User.objects.create_superuser('admin', 'admin@example.com', 'nimda')" | python manage.py shell
 python manage.py loaddata geonode/base/fixtures/initial_data.json;
 python manage.py loaddata geonode/base/fixtures/default_oauth_apps.json;
 
@@ -59,5 +57,5 @@ sudo service postgresql restart;
 cd /vagrant/coat_geonode;
 python manage.py migrate;
 
-
-
+# create user 'admin'
+echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'nimda')" | python manage.py shell;
