@@ -72,4 +72,4 @@ EXPOSE 8000
 WORKDIR /root
 
 # start PostgreSQL
-ENTRYPOINT /etc/init.d/postgresql start && /bin/bash
+# ENTRYPOINT /etc/init.d/postgresql start && /bin/bash

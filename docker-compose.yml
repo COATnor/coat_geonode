@@ -1,0 +1,12 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: /etc/init.d/postgresql start && /root/docker-provision/start_geoserver.sh && /root/docker-provision/start_geonode.sh
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - 8080:80
+    links:
+        - web
