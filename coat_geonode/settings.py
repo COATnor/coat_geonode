@@ -53,6 +53,6 @@ LOCALE_PATHS = (
     os.path.join(LOCAL_ROOT, 'locale'),
     ) + LOCALE_PATHS
 
-INSTALLED_APPS = INSTALLED_APPS + ('coat_geonode',)
+INSTALLED_APPS = INSTALLED_APPS + ('coat_geonode', 'whatever')
 
 TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
