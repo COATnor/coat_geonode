@@ -4,7 +4,8 @@ from django.views.generic import TemplateView
 from geonode.urls import *
 
 urlpatterns = patterns('',
-   url(r'^/?$',
+    url(r'^/?$',
        TemplateView.as_view(template_name='site_index.html'),
        name='home'),
+    (r'^whatever/', include('whatever.urls')),
  ) + urlpatterns

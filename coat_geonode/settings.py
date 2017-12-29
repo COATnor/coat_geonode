@@ -30,6 +30,7 @@ SITENAME = 'coat_geonode'
 # Defines the directory that contains the settings file as the LOCAL_ROOT
 # It is used for relative settings elsewhere.
 LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
+BASE_LOCAL_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
 WSGI_APPLICATION = "coat_geonode.wsgi.application"
 
@@ -53,6 +54,10 @@ LOCALE_PATHS = (
     os.path.join(LOCAL_ROOT, 'locale'),
     ) + LOCALE_PATHS
 
-INSTALLED_APPS = INSTALLED_APPS + ('coat_geonode', 'whatever')
+NEW_APPS = ['coat_geonode', 'whatever']
 
-TEMPLATES[0]['DIRS'].insert(0, os.path.join(LOCAL_ROOT, "templates"))
+INSTALLED_APPS = INSTALLED_APPS + tuple(NEW_APPS)
+
+for app in NEW_APPS:
+    APP_ROOT = os.path.join(BASE_LOCAL_ROOT, app)
+    TEMPLATES[0]['DIRS'].insert(0, os.path.join(APP_ROOT, "templates"))
