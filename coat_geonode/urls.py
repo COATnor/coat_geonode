@@ -7,4 +7,5 @@ urlpatterns = patterns('',
    url(r'^/?$',
        TemplateView.as_view(template_name='site_index.html'),
        name='home'),
+   (r'^metadata/', include('metadata.urls')),
  ) + urlpatterns
