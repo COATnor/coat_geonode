@@ -15,6 +15,7 @@ Vagrant.configure("2") do |config|
     # port forwarding
     config.vm.network "forwarded_port", guest: 8080, host: 8081
     config.vm.network "forwarded_port", guest: 8000, host: 8000
+    config.vm.network "forwarded_port", guest: 5432, host: 65432
 
     # provision script that runs when creating virtual machine
     config.vm.provision :shell, path: "vagrant-provision/main.sh"
