@@ -54,7 +54,7 @@ LOCALE_PATHS = (
     os.path.join(LOCAL_ROOT, 'locale'),
     ) + LOCALE_PATHS
 
-NEW_APPS = ['coat_geonode', 'metadata']
+NEW_APPS = ['coat_geonode', 'metadata', 'newdata']
 
 INSTALLED_APPS = INSTALLED_APPS + tuple(NEW_APPS)
 
