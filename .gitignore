@@ -6,3 +6,4 @@ coat_geonode/local_settings.py
 geonode/*
 .idea/*
 geonode
+geonode_bckp
