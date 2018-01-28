@@ -20,6 +20,7 @@
 
 #from django.contrib.gis import models
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -39,6 +40,10 @@ class MothWaipoints(models.Model):
     #lon = models.FloatField()
     #lat = models.Floatfield()
 
+class MothUploadEvent(models.Model):
+    upload_date = models.DateTimeField()
+    uploader = models.ForeignKey(settings.AUTH_USER_MODEL)
+
 class MothRecord(models.Model):
     date = models.DateTimeField()
     alt = models.PositiveSmallIntegerField()
@@ -55,6 +60,7 @@ class MothRecord(models.Model):
     obs = models.CharField(max_length=12)
     branches = models.PositiveSmallIntegerField()
     notes = models.CharField(max_length=150)
+    upload_event = models.ForeignKey(MothUploadEvent)
 
 
 
