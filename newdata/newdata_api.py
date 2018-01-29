@@ -18,4 +18,27 @@
 #
 #########################################################################
 
+from .models import MothRecords, MothWaipoints, MothUploadEvents, MothLocations
+from tastypie.authentication import ApiKeyAuthentication
+from tastypie.resources import ModelResource
 
+class MothLocationResource(ModelResource):
+    class Meta:
+        queryset = MothLocations.objects.all()
+        resource_name = 'mothlocation'
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ['get', 'post']
+
+class MothWaypointResource(ModelResource):
+    class Meta:
+        queryset = MothWaipoints.objects.all()
+        resource_name = 'mothwaypoint'
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ['get', 'post']
+
+class MothRecordResource(ModelResource):
+    class Meta:
+        queryset = MothRecords.objects.all()
+        resource_name = 'moth'
+        authentication = ApiKeyAuthentication()
+        allowed_methods = ['get', 'post']

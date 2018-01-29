@@ -40,11 +40,11 @@ class MothWaipoints(models.Model):
     #lon = models.FloatField()
     #lat = models.Floatfield()
 
-class MothUploadEvent(models.Model):
+class MothUploadEvents(models.Model):
     upload_date = models.DateTimeField()
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-class MothRecord(models.Model):
+class MothRecords(models.Model):
     date = models.DateTimeField()
     alt = models.PositiveSmallIntegerField()
     location = models.CharField(max_length=12)
@@ -60,7 +60,7 @@ class MothRecord(models.Model):
     obs = models.CharField(max_length=12)
     branches = models.PositiveSmallIntegerField()
     notes = models.CharField(max_length=150)
-    upload_event = models.ForeignKey(MothUploadEvent)
+    upload_event = models.ForeignKey(MothUploadEvents)
 
 
 
