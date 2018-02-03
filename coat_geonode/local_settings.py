@@ -113,3 +113,5 @@ CATALOGUE = {
 
 # Default preview library
 #LAYER_PREVIEW_LIBRARY = 'geoext'
+
+DEBUG = True

@@ -20,13 +20,16 @@
 
 from .models import MothRecords, MothWaipoints, MothUploadEvents, MothLocations
 from tastypie.authentication import ApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+from tastypie.authorization import DjangoAuthorization
+from geonode.api.authorization import GeoNodeAuthorization, GeonodeApiKeyAuthentication
 from tastypie.resources import ModelResource
 
 class MothLocationResource(ModelResource):
     class Meta:
         queryset = MothLocations.objects.all()
         resource_name = 'mothlocation'
-        authentication = ApiKeyAuthentication()
+        authentication = GeoNodeAuthorization()
         allowed_methods = ['get', 'post']
 
 class MothWaypointResource(ModelResource):
@@ -40,5 +43,9 @@ class MothRecordResource(ModelResource):
     class Meta:
         queryset = MothRecords.objects.all()
         resource_name = 'moth'
-        authentication = ApiKeyAuthentication()
+        #authentication = ApiKeyAuthentication()
+        #authentication = GeoNodeAuthorization()
+        authentication = MultiAuthentication(SessionAuthentication(), GeonodeApiKeyAuthentication())
+        authorization = DjangoAuthorization()
         allowed_methods = ['get', 'post']
+
