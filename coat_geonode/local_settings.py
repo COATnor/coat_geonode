@@ -24,9 +24,10 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 SITEURL = "http://localhost:8000/"
 
+
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'ENGINE': 'django.contrib.gis.db.backends.postgis',
          'NAME': 'geonode',
          'USER': 'geonode',
          'PASSWORD': 'geonode',
