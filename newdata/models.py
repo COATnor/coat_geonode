@@ -26,7 +26,7 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 class MothLocations(models.Model):
-    name = models.CharField(max_length=20,)
+    name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
