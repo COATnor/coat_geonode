@@ -19,9 +19,10 @@
 #########################################################################
 
 
-from django.db import models
+# from django.db import models
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 
@@ -64,6 +65,10 @@ class MothRecords(models.Model):
     notes = models.CharField(max_length=150)
     upload_event = models.ForeignKey(MothUploadEvents)
 
-
+# probably the user foreignkey needs to be changed -- look into geonode user management
+class MothFileUpload(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    datafile = models.FileField()
 
 

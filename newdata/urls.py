@@ -22,4 +22,5 @@ urlpatterns = patterns(
     url(r'^$', TemplateView.as_view(template_name='newdata/newdata_list.html'), name='newdata_browse'),
     url(r'^locations/$', views.mothlocations_list),
     url(r'^locations/(?P<pk>[0-9]+)/$', views.location_detail),
+    url(r'^imageUpload/$', views.FileUploadViewSet.as_view())
 )

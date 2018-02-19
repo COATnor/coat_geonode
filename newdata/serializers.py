@@ -17,9 +17,19 @@
 ########################################################################
 
 from rest_framework import serializers
-from .models import MothLocations, MothRecords, MothUploadEvents, MothWaipoints
+from .models import MothLocations, MothRecords, MothUploadEvents, MothWaipoints, MothFileUpload
 
 class MothLocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = MothLocations
         fields = ('name',)
+
+class MothFileUploadSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='id'
+    )
+
+    class Meta:
+        model = MothFileUpload
+        fields = ('created', 'user', 'datafile')

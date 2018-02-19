@@ -19,9 +19,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
-from .models import MothLocations
-from .serializers import MothLocationSerializer
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
+from rest_framework.viewsets import ModelViewSet
+from .models import MothLocations, MothFileUpload
+from .serializers import MothLocationSerializer, MothFileUploadSerializer
 
 @csrf_exempt
 def mothlocations_list(request):
@@ -73,3 +74,12 @@ def location_detail(request, pk):
     elif request.method == 'DELETE':
         location.delete()
         return HttpResponse(status=204)
+
+class FileUploadViewSet(ModelViewSet):
+
+    queryset = MothFileUpload.objects.all()
+    serializer_class = MothFileUploadSerializer
+    parser_classes = (MultiPartParser, FormParser,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user, datafile=self.request.data.get('datafile'))
