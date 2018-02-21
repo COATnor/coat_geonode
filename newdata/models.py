@@ -26,6 +26,10 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 
+class DataTypes(models.Model):
+    type_name = models.CharField(max_length=10)
+    
+
 class MothLocations(models.Model):
     name = models.CharField(max_length=20)
 

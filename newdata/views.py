@@ -24,7 +24,7 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import MothLocations, MothFileUpload
+from .models import MothLocations, MothFileUpload, MothRecords
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 
 @csrf_exempt
@@ -92,10 +92,34 @@ class FileUploadViewSet(APIView):
 
     @csrf_exempt
     def post(self, request, *args, **kwargs):
+
+        # read the uploaded moth data file and save data to db
+        #self.save_moth_data()
+
         file_serializer = MothFileUploadSerializer(data=request.data)
         if file_serializer.is_valid():
             file_serializer.save(user=self.request.user, datafile=self.request.data.get('datafile'))
-            return Response(file_serializer.data, status=status.HTTP_200_CREATED)
+            return Response(file_serializer.data)
+
+    def save_moth_data(self):
+        """
+        saving data to db
+        :return:
+        """
+        datafile = self.request.data.get('datafile')
+        with open(datafile, 'r') as d:
+            content = d.readlines()
+        content = [x.strip() for x in content]
+        for i in content:
+            values = i.split('\t')
+            for e, value in enumerate(values):
+                values[e] = values[e].decode('iso-8859-10')
+            MothRecords(date=values[0], alt=values[1], location=values[2], waypoint=values[3],
+                        waypoint_name=values[4], station=values[5], ep=values[6], opl=values[7],
+                        opint=values[8], opdark=values[9], opsum=values[10], agr=values[11],
+                        obs=values[12], branches=values[13], notes=values[14], upload_event=1)
+
+
 
 @csrf_exempt
 def moth_file_download(request, pk):
