@@ -24,11 +24,7 @@ class MothLocationSerializer(serializers.ModelSerializer):
         model = MothLocations
         fields = ('name',)
 
-class MothFileUploadSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='id'
-    )
+class MothFileUploadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MothFileUpload

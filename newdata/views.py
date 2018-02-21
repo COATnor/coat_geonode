@@ -18,9 +18,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .models import MothLocations, MothFileUpload
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 
@@ -75,11 +78,46 @@ def location_detail(request, pk):
         location.delete()
         return HttpResponse(status=204)
 
-class FileUploadViewSet(ModelViewSet):
+class FileUploadViewSet(APIView):
 
     queryset = MothFileUpload.objects.all()
     serializer_class = MothFileUploadSerializer
-    parser_classes = (MultiPartParser, FormParser,)
+    parser_classes = (MultiPartParser, FormParser)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user, datafile=self.request.data.get('datafile'))
+    def get(self, request):
+        uploaded_moth_files = MothFileUpload.objects.all()
+        serializer = MothFileUploadSerializer(uploaded_moth_files, many=True)
+        return Response(serializer.data)
+
+
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        file_serializer = MothFileUploadSerializer(data=request.data)
+        if file_serializer.is_valid():
+            file_serializer.save(user=self.request.user, datafile=self.request.data.get('datafile'))
+            return Response(file_serializer.data, status=status.HTTP_200_CREATED)
+
+@csrf_exempt
+def moth_file_download(request, pk):
+    """
+    Retrieve, update or delete a location
+    :param request:
+    :param pk:
+    :return:
+    """
+
+    try:
+        moth_file = MothFileUpload.objects.get(pk=pk)
+    except:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = MothFileUploadSerializer(moth_file)
+        namepath = serializer.data['datafile']
+        textfile = moth_file.datafile
+        #txt_file = open(path, 'rb')
+        filename = namepath.split('/')[-1]
+        response = HttpResponse(textfile)
+        response['Content-Type'] = 'text/plain'
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        return response

@@ -68,7 +68,7 @@ class MothRecords(models.Model):
 # probably the user foreignkey needs to be changed -- look into geonode user management
 class MothFileUpload(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, to_field='id')
     datafile = models.FileField()
 
 

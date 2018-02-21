@@ -12,5 +12,5 @@ urlpatterns = patterns('',
    (r'^metadata/', include('metadata.urls')),
    (r'^newdata/', include('newdata.urls')),
    #(r'', include(nd_api.urls)),
-   (r'^newdatadrf/', include('rest_framework.urls')),
+   (r'^newdatadrf/', include('rest_framework.urls', namespace='rest_framework')),
  ) + urlpatterns
