@@ -17,6 +17,9 @@
 ########################################################################
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views import generic
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
@@ -24,7 +27,7 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import MothLocations, MothFileUpload, MothRecords
+from .models import MothLocations, MothFileUpload, MothRecords, DataTypes
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 
 @csrf_exempt
@@ -145,3 +148,21 @@ def moth_file_download(request, pk):
         response['Content-Type'] = 'text/plain'
         response['Content-Disposition'] = 'attachment; filename="%s"' % filename
         return response
+
+def datatypes(request):
+    """
+    This view shows the list of all newdata data types
+    """
+    datatypes = DataTypes.objects.all()
+    return render_to_response("newdata/newdata_list.html",
+                              RequestContext(request, {'datatypes': datatypes}))
+'''
+class DatatypeList(generic.ListView):
+    model = DataTypes
+    template_name = 'newdata/newdata_list'
+
+    def get_queryset(self):
+        return DataTypes.objects.all()
+'''
+class DataTypeDetail(generic.DetailView):
+    model = DataTypes

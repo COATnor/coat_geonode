@@ -7,37 +7,68 @@
 
 {% block body_class %}newdata explore{% endblock %}
 
-{% block body %}
+{% block body_outer %}
 <div class="page-header">
-  <a href="{% url "layer_upload" %}" class="btn btn-primary pull-right">Add metadata</a>
-  <h2 class="page-title">Explore Metadata</h2>
+  <a href="{% url "layer_upload" %}" class="btn btn-primary pull-right">Add Data Collection</a>
+  <h2 class="page-title">Explore Data Collections</h2>
 </div>
-  {% with include_type_filter='true' %}
-  {% with facet_type='layers' %}
-  {% with header='Type' %}
-  {% with filter='type__in' %}
-  {% include "search/_search_content.html" %}
-  {% endwith %}
-  {% endwith %}
-  {% endwith %}
-  {% endwith %}
-  {% include "_bulk_permissions_form.html" %}
+
+
+<div>
+    <ul>
+        {% for datatype in datatypes %}
+            {{ datatype.type_name }}
+             <li><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></li>
+        {%  endfor %}
+    </ul>
+</div>
+
+<div class="row" ng-controller="CartList">
+
+    <div class="col-md-3">
+    </div>
+
+    <div class="col-md-6">
+        <div class="row">
+
+        </div>
+        <div class="row">
+          <div class="col-md-12 grid-spacer">
+              {% include 'base/_resourcebase_snippet.html' %}
+            <ul>
+                {% for datatype in datatypes %}
+                    <div class="col-lg-12 item-container">
+                        <div class="col-lg-12 profile-avatar">
+                        {{ datatype.type_name }}
+                         <li><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></li>
+                        </div>
+                    <div class="col-lg-8 item-details">
+                      <div class="row">
+                        <div class="col-xs-10">
+                          <p class="item-meta"><span class="item-category">{{ item.category__gn_description }}</span></p>
+                          <h4><a href="{{ item.detail_url }}">{{ item.title }}</a></h4>
+                        </div>
+                        <div class="col-xs-2">
+                          <h4>
+                            <button
+                              class="btn btn-default btn-xs pull-right"
+                              ng-if="cart"
+                              ng-click="cart.toggleItem(item)"
+                              data-toggle="tooltip"
+                              data-placement="bottom"
+                              title="Select"><i ng-class="cart.getFaClass(item.id)" class="fa fa-lg"></i></button>
+                          </h4>
+                        </div>
+                    </div>
+                    </div>
+                {%  endfor %}
+            </ul>
+          </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
 
-{% block extra_script %}
-{{ block.super }}
-  {% if GEONODE_SECURITY_ENABLED %}
-    {% include "_permissions_form_js.html" %}
-  {% endif %}
-  <script type="text/javascript">
-      {% if HAYSTACK_SEARCH %}
-          SEARCH_URL = '{% url 'api_get_search' api_name='api' resource_name='base' %}?type__in=layer'
-      {% else %}
-          SEARCH_URL = '{% url 'api_dispatch_list' api_name='api' resource_name='layers' %}';
-      {% endif %}
-    FILTER_TYPE = 'layer';
-  </script>
-  {% with include_spatial='true' %}
-  {% include 'search/search_scripts.html' %}
-  {% endwith %}
-{% endblock extra_script %}
+
+
