@@ -29,41 +29,36 @@
     </div>
 
     <div class="col-md-6">
-        <div class="row">
 
-        </div>
+
         <div class="row">
-          <div class="col-md-12 grid-spacer">
-              {% include 'base/_resourcebase_snippet.html' %}
-            <ul>
-                {% for datatype in datatypes %}
-                    <div class="col-lg-12 item-container">
-                        <div class="col-lg-12 profile-avatar">
-                        {{ datatype.type_name }}
-                         <li><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></li>
-                        </div>
-                    <div class="col-lg-8 item-details">
-                      <div class="row">
-                        <div class="col-xs-10">
-                          <p class="item-meta"><span class="item-category">{{ item.category__gn_description }}</span></p>
-                          <h4><a href="{{ item.detail_url }}">{{ item.title }}</a></h4>
-                        </div>
-                        <div class="col-xs-2">
-                          <h4>
-                            <button
-                              class="btn btn-default btn-xs pull-right"
-                              ng-if="cart"
-                              ng-click="cart.toggleItem(item)"
-                              data-toggle="tooltip"
-                              data-placement="bottom"
-                              title="Select"><i ng-class="cart.getFaClass(item.id)" class="fa fa-lg"></i></button>
-                          </h4>
-                        </div>
-                    </div>
-                    </div>
-                {%  endfor %}
-            </ul>
-          </div>
+              <div class="col-md-12 grid-spacer">
+
+                    <ul>
+                        {% for datatype in datatypes %}
+                            <div class="col-lg-12 item-container">
+
+                                <div class="col-lg-12 profile-avatar">
+                                    {{ datatype.type_name }}
+                                     <li><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></li>
+                                </div>
+
+                                <div class="col-lg-8 item-details">
+                                      <div class="row">
+                                        <div class="col-xs-10">
+
+                                        </div>
+                                        <div class="col-xs-2">
+
+                                        </div>
+                                      </div>
+                                </div>
+
+                            </div>
+                        {%  endfor %}
+                    </ul>
+
+              </div>
         </div>
     </div>
 
