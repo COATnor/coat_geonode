@@ -17,6 +17,8 @@ You can choose Docker or Vagrant.
 Docker
 """"""
 
+**NOTE: This DOCKER approach is wrong, waiting for correction**
+
 Clone COAT GeoNode code and go to the downloaded directory:
 
 .. code-block::
