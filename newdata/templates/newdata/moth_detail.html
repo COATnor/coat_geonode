@@ -1,0 +1,29 @@
+{% extends "newdata/newdata_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load pagination_tags %}
+{% load url from future %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %} Moth {% endblock %}
+
+
+
+
+
+
+{% block body_outer %}
+    {% include "newdata/newdata_ol3_map.html" %}
+<div class="row">
+  <div class="col-md-8">
+
+    <div id="embedded_map" class="mrg-btm">
+      <div id="preview_map"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

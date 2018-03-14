@@ -21,6 +21,8 @@ urlpatterns = patterns(
     'newdata.views',
     #url(r'^$', TemplateView.as_view(template_name='newdata/newdata_list.html'), name='newdata_browse'),
     url(r'^$', 'datatypes', name='newdata_browse'),
+    url(r'^moth/$', views.moth_detail, name='mothdetail'),
+    url(r'^(?P<pk>[0-9]+)/$', views.DataTypeDetail.as_view(), name='datatypesdetail'),
     url(r'^(?P<pk>[0-9]+)/$', views.DataTypeDetail.as_view(), name='datatypesdetail'),
     url(r'^locations/$', views.mothlocations_list),
     url(r'^locations/(?P<pk>[0-9]+)/$', views.location_detail),

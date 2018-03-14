@@ -27,7 +27,7 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import MothLocations, MothFileUpload, MothRecords, DataTypes
+from .models import MothLocations, MothFileUpload, MothWaipoints, MothRecords, DataTypes
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 
 @csrf_exempt
@@ -166,3 +166,15 @@ class DatatypeList(generic.ListView):
 '''
 class DataTypeDetail(generic.DetailView):
     model = DataTypes
+
+def moth_detail(request):
+    """
+        This view manages the details of moth data
+    """
+    mothdata = MothRecords.objects.all()
+    mothlocations = MothLocations.objects.all()
+    mothwaypoints = MothWaipoints.objects.all()
+    return render_to_response("newdata/moth_detail.html",
+                               RequestContext(request, {'mothdata':mothdata,
+                                                        'mothloc': mothlocations,
+                                                        'mothway': mothwaypoints}))

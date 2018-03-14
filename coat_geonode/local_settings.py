@@ -121,6 +121,6 @@ REST_FRAMEWORK = {
 }
 
 # Default preview library
-#LAYER_PREVIEW_LIBRARY = 'geoext'
+LAYER_PREVIEW_LIBRARY = 'leaflet'
 
 DEBUG = True

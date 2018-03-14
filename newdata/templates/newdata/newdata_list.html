@@ -1,4 +1,4 @@
-{% extends "metadata/metadata_base.html" %}
+{% extends "newdata/newdata_base.html" %}
 {% load i18n %}
 {% load staticfiles %}
 {% load url from future %}
@@ -14,14 +14,6 @@
 </div>
 
 
-<div>
-    <ul>
-        {% for datatype in datatypes %}
-            {{ datatype.type_name }}
-             <li><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></li>
-        {%  endfor %}
-    </ul>
-</div>
 
 <div class="row" ng-controller="CartList">
 
@@ -39,8 +31,8 @@
                             <div class="col-lg-12 item-container">
 
                                 <div class="col-lg-12 profile-avatar">
-                                    {{ datatype.type_name }}
-                                     <dt><a href="{% url 'datatypesdetail' datatype.id %}">{{ datatype.type_name }}</a></dt>
+
+                                     <dt class="col-lg-12"><a href="{% url 'mothdetail' %}">{{ datatype.type_name }}</a></dt>
 
 
                                     <div class="col-lg-8 item-details">
@@ -55,12 +47,7 @@
                                                         <li><a href="{{ item.detail_url }}"><i class="fa fa-eye"></i>{{ item.popular_count }}</a></li>
                                                         <li><a href="{{ item.detail_url }}#share"><i class="fa fa-share"></i>{{ item.share_count }}</a></li>
                                                         <li><a href="{{ item.detail_url }}#rate"><i class="fa fa-star"></i>{{ item.rating }}</a></li>
-                                                        <li><a ng-if="item.detail_url.indexOf('/layers/') > -1" href="{% url "new_map" %}?layer={{ item.detail_url }}">
 
-                                                          <i class="fa fa-map-marker"></i>{% trans "Create a Map" %}</a>
-
-                                                        </li>
-                                                        <li><a ng-if="item.detail_url.indexOf('/maps/') > -1" href="/maps/{{item.id}}/view"><i class="fa fa-map-marker"></i>View Map</a></li>
                                                       </ul>
                                                     </div>
                                                   </div>
