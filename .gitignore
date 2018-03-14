@@ -3,7 +3,9 @@ coat_geonode.egg-info/
 .vagrant
 ubuntu-xenial-16.04-cloudimg-console.log
 coat_geonode/local_settings.py
+coat_geonode/Scripts
 geonode/*
 .idea/*
 geonode
 geonode_bckp
+local_settings.py

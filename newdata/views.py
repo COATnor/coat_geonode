@@ -27,8 +27,10 @@ from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import MothLocations, MothFileUpload, MothWaipoints, MothRecords, DataTypes
+from .models import MothLocations, MothFileUpload, MothUploadEvents, MothWaipoints, MothRecords, DataTypes
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
+import csv
+
 
 @csrf_exempt
 def mothlocations_list(request):
@@ -97,7 +99,7 @@ class FileUploadViewSet(APIView):
     def post(self, request, *args, **kwargs):
 
         # read the uploaded moth data file and save data to db
-        #self.save_moth_data()
+        self.save_moth_data()
 
         file_serializer = MothFileUploadSerializer(data=request.data)
         if file_serializer.is_valid():
@@ -106,23 +108,27 @@ class FileUploadViewSet(APIView):
 
     def save_moth_data(self):
         """
-        saving data to db
+        saving data to db. data being read from moth density_trans_year.txt files
         :return:
         """
         datafile = self.request.data.get('datafile')
-        with open(datafile, 'r') as d:
-            content = d.readlines()
-        content = [x.strip() for x in content]
-        for i in content:
-            values = i.split('\t')
-            for e, value in enumerate(values):
-                values[e] = values[e].decode('iso-8859-10')
-            MothRecords(date=values[0], alt=values[1], location=values[2], waypoint=values[3],
-                        waypoint_name=values[4], station=values[5], ep=values[6], opl=values[7],
-                        opint=values[8], opdark=values[9], opsum=values[10], agr=values[11],
-                        obs=values[12], branches=values[13], notes=values[14], upload_event=1)
 
+        content = csv.reader(datafile)
+        #content = [x.strip() for x in content]
+        for n, i  in enumerate(content):
+            if n != 0:
 
+                values = i[0].split('\t')
+                for e, value in enumerate(values):
+                    values[e] = values[e].decode('iso-8859-10')
+                waypoint = MothWaipoints.objects.get(waypoint_name=values[4])
+                up_event = MothUploadEvents.objects.get(id=1)
+                MothRecords(date=values[1], alt=values[2], location=values[3], waypoint=waypoint,
+                            waypoint_name=values[4], station=values[5], ep=values[6], opl=values[7],
+                            opint=values[8], opdark=values[9], opsum=values[10], agr=values[11],
+                            obs=values[12], branches=values[13], notes=values[14], upload_event=up_event)
+
+                print "done"
 
 @csrf_exempt
 def moth_file_download(request, pk):
