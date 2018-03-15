@@ -27,7 +27,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 class DataTypes(models.Model):
-    type_name = models.CharField(max_length=10)
+    type_name = models.CharField(max_length=20)
 
 
 class MothLocations(models.Model):
@@ -37,9 +37,9 @@ class MothLocations(models.Model):
         return self.name
 
 class MothWaipoints(models.Model):
-    waypoint_name = models.CharField(max_length=10)
+    waypoint_name = models.CharField(max_length=20)
     location = models.ForeignKey(MothLocations)
-    location_name = models.CharField(max_length=15)
+    location_name = models.CharField(max_length=20)
     station = models.PositiveSmallIntegerField()
     utm33_lon = models.FloatField()
     utm33_lat = models.FloatField()
@@ -54,9 +54,9 @@ class MothUploadEvents(models.Model):
 class MothRecords(models.Model):
     date = models.DateTimeField()
     alt = models.PositiveSmallIntegerField()
-    location = models.CharField(max_length=12)
+    location = models.CharField(max_length=20)
     waypoint = models.ForeignKey(MothWaipoints)
-    waypoint_name = models.CharField(max_length=12)
+    waypoint_name = models.CharField(max_length=20)
     station = models.PositiveSmallIntegerField()
     ep = models.PositiveIntegerField()
     opl = models.PositiveIntegerField()
@@ -64,7 +64,7 @@ class MothRecords(models.Model):
     opdark = models.PositiveIntegerField()
     opsum = models.PositiveIntegerField()
     agr = models.PositiveIntegerField()
-    obs = models.CharField(max_length=12)
+    obs = models.CharField(max_length=20)
     branches = models.PositiveSmallIntegerField()
     notes = models.CharField(max_length=150)
     upload_event = models.ForeignKey(MothUploadEvents)

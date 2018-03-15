@@ -3,7 +3,7 @@ coat_geonode.egg-info/
 .vagrant
 ubuntu-xenial-16.04-cloudimg-console.log
 coat_geonode/local_settings.py
-coat_geonode/Scripts
+coat_geonode/Scripts/Coordinates.txt
 geonode/*
 .idea/*
 geonode
