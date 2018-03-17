@@ -24,6 +24,7 @@ urlpatterns = patterns(
     url(r'^moth/$', views.moth_detail, name='mothdetail'),
     url(r'moth.data/', views.moth_geojson, name='mothgeojson'),
     url(r'moth/(?P<location>.+)/$', views.moth_geojson_filtered, name='mothgeojson_filtered'),
+    #url(r'moth/(?P<location>.+)/$', views.moth_geojson_filtered, name='mothgeojson_filtered'),
     url(r'^(?P<pk>[0-9]+)/$', views.DataTypeDetail.as_view(), name='datatypesdetail'),
     url(r'^(?P<pk>[0-9]+)/$', views.DataTypeDetail.as_view(), name='datatypesdetail'),
     url(r'^locations/$', views.mothlocations_list),

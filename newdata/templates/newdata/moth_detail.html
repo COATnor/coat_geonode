@@ -53,6 +53,7 @@
 
 
     <script>
+        var geojsonFormat = new ol.format.GeoJSON();
         function filter_location(location) {
             $.ajax({
                 type: "POST",
@@ -60,11 +61,56 @@
                 dataType: 'json',
                 success: function (response) {
                         alert(response.features[1].properties['waypoint_name']);
-                     }
+                        new_lon = response.features[1].properties['lon'];
+                        new_lat = response.features[1].properties['lat'];
+
+                        var features = geojsonFormat.readFeatures(response,
+                            {featureProjection:"EPSG:3857"});
+
+                        alert(this.url);
+
+                        layersource = waypoints_layer.getSource()
+                        layersource.forEachFeature(function(feature){
+                           layersource.removeFeature(feature)
+                        });
+
+
+                        layersource.set('url', this.url);
+
+                        waypoints_layer_updated = new ol.layer.Vector({
+                            source: new ol.source.Vector({
+                                url: this.url,
+                                format: new ol.format.GeoJSON({
+                                projection: 'EPSG:3857'
+                                }),
+                        name: 'waypoints_layer_updated'
+                            })
+                        });
+
+                        map.addLayer(waypoints_layer_updated);
+
+
+                }
             });
         }
     </script>
 <!--
+
+ alert(features);
+            layersource.setProperties({url: this.url});
+           layersource.clear()
+
+        layersource = waypoints_layer.getSource()
+                        layersource.forEachFeature(function(feature){
+                           layersource.removeFeature(feature)
+                        });
+                        waypoints_layer.getSource(response);
+                        waypoints_layer.source.dispatchEvent('change');
+
+        var myVar1=data.features[0].properties['avgtemp1'];
+        document.getElementById("v1").innerHTML = myVar1;
+
+
     <script>
         function filter_location(location) {
             $.get(location+'/', function (data) {
