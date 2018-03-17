@@ -59,9 +59,10 @@ with open(path, 'r') as f:
 
             lon = float(l.split("\t")[5])
             lat = float(l.split("\t")[6].strip())
-            geometry = "ST_GeomFromText('Point({} {})', 4326)".format(lon, lat)
+            #geometry = "ST_GeomFromText('Point({} {})', 4326)".format(lon, lat)
             print lat
-
+            # next commented: required for inserting remaining coordinates after error
+            #e = 269 + e
             row = (e, waypoint, location_id, location, station, utm33_lon, utm33_lat, lon, lat, lon, lat,)
             print row
             try:

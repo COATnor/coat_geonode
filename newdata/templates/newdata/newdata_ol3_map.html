@@ -10,22 +10,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   	var crs = 'EPSG:3857';
 
-    var coordinates = [30, 70.6]
+    var coordinates = [24, 70.6]
   	var lonlat = ol.proj.transform(coordinates, 'EPSG:4326', 'EPSG:3857')
     var lon = lonlat[0]
     var lat = lonlat[1]
+    var location = 'dåfjord'
 
   	var layers = [
         	new ol.layer.Tile({
             	source: new ol.source.OSM()
-          	})
+          	}),
+            new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    url: "{% url 'mothgeojson' %}",
+                    format: new ol.format.GeoJSON({
+                        defaultDataProjection:  'EPSG:4326',
+                        projection: 'EPSG:3857'
+                    })
+                }),
+            }),
+
     ];
 
     var map = new ol.Map({
                 layers: layers,
                 target: 'preview_map',
                 view: new ol.View({
-                    zoom: 10,
+                    zoom: 6,
                     projection: crs,
                     center: [lon, lat]
                 })

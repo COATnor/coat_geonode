@@ -21,6 +21,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
@@ -30,6 +31,7 @@ from rest_framework import status
 from .models import MothLocations, MothFileUpload, MothUploadEvents, MothWaipoints, MothRecords, DataTypes
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 import csv
+import datetime
 
 
 @csrf_exempt
@@ -115,20 +117,26 @@ class FileUploadViewSet(APIView):
 
         content = csv.reader(datafile)
         #content = [x.strip() for x in content]
-        for n, i  in enumerate(content):
+        for n, i in enumerate(content):
             if n != 0:
 
                 values = i[0].split('\t')
                 for e, value in enumerate(values):
                     values[e] = values[e].decode('iso-8859-10')
-                waypoint = MothWaipoints.objects.get(waypoint_name=values[4])
-                up_event = MothUploadEvents.objects.get(id=1)
-                MothRecords(date=values[1], alt=values[2], location=values[3], waypoint=waypoint,
-                            waypoint_name=values[4], station=values[5], ep=values[6], opl=values[7],
-                            opint=values[8], opdark=values[9], opsum=values[10], agr=values[11],
-                            obs=values[12], branches=values[13], notes=values[14], upload_event=up_event)
-
-                print "done"
+                try:
+                    waypoint = MothWaipoints.objects.get(waypoint_name=values[4])
+                    up_event = MothUploadEvents.objects.get(id=1)
+                    dateform = datetime.datetime.strptime(values[1], "%d.%m.%Y")
+                    new_moth_record = MothRecords.objects.create(date=dateform, alt=values[2], location=values[3], waypoint=waypoint,
+                                waypoint_name=values[4], station=values[5], ep=values[6], opl=values[7],
+                                opint=values[8], opdark=values[9], opsum=values[10], agr=values[11],
+                                obs=values[12], branches=values[13], notes=values[14], upload_event=up_event)
+                    new_moth_record.save()
+                except:
+                    import pdb;
+                    pdb.set_trace()
+                    print "done"
+                    #print new_moth_record
 
 @csrf_exempt
 def moth_file_download(request, pk):
@@ -184,3 +192,18 @@ def moth_detail(request):
                                RequestContext(request, {'mothdata':mothdata,
                                                         'mothloc': mothlocations,
                                                         'mothway': mothwaypoints}))
+
+def moth_geojson(request):
+    """
+           serializing moth data as geojson
+    """
+
+    waypoints_as_geojson = serialize('geojson', MothWaipoints.objects.all())
+    return HttpResponse(waypoints_as_geojson, content_type='json')
+
+def moth_geojson_filtered(request, location):
+    """
+        filtering moth data as geojson based on location button pressed
+    """
+    filtered_waypoints_geojson = serialize('geojson', MothWaipoints.objects.filter(location_name=location))
+    return HttpResponse(filtered_waypoints_geojson, content_type='json')
