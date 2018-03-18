@@ -20,9 +20,8 @@
     {% include "newdata/newdata_ol3_map.html" %}
 
 <div class="row">
-    <div class="col-md-4">
-        <button onclick="filter_location('dåfjord');">dåfjord</button>
-    </div>
+
+
 
     <div class="col-md-8">
         <!--<div class="col-8">
@@ -60,24 +59,23 @@
                 url: location+'/',
                 dataType: 'json',
                 success: function (response) {
-                        alert(response.features[1].properties['waypoint_name']);
+
                         new_lon = response.features[1].properties['lon'];
                         new_lat = response.features[1].properties['lat'];
 
                         var features = geojsonFormat.readFeatures(response,
                             {featureProjection:"EPSG:3857"});
 
-                        alert(this.url);
+
 
                         layersource = waypoints_layer.getSource()
                         layersource.forEachFeature(function(feature){
                            layersource.removeFeature(feature)
                         });
 
-
                         layersource.set('url', this.url);
 
-                        waypoints_layer_updated = new ol.layer.Vector({
+                        waypoints_layer= new ol.layer.Vector({
                             source: new ol.source.Vector({
                                 url: this.url,
                                 format: new ol.format.GeoJSON({
@@ -87,7 +85,7 @@
                             })
                         });
 
-                        map.addLayer(waypoints_layer_updated);
+                        map.addLayer(waypoints_layer);
 
 
                 }
@@ -95,6 +93,8 @@
         }
     </script>
 <!--
+alert(this.url);
+alert(response.features[1].properties['waypoint_name']);
 
  alert(features);
             layersource.setProperties({url: this.url});
@@ -120,8 +120,10 @@
         }
     </script>
 -->
-    <div class="col-md-4">
-        <button onclick="filter_location('dåfjord');">dåfjord</button>
-    </div>
+    {% for loc in mothloc %}
+        <div class="col-md-4">
+            <button onclick="filter_location('{{ loc }}');">{{ loc }}  </button>
+        </div>
+    {% endfor %}
 
 {% endblock %}

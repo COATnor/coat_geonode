@@ -189,7 +189,7 @@ def moth_detail(request):
     mothlocations = MothLocations.objects.all()
     mothwaypoints = MothWaipoints.objects.all()
     return render_to_response("newdata/moth_detail.html",
-                               RequestContext(request, {'mothdata':mothdata,
+                               RequestContext(request, {'mothdata': mothdata,
                                                         'mothloc': mothlocations,
                                                         'mothway': mothwaypoints}))
 

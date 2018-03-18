@@ -33,7 +33,7 @@ class DataTypes(models.Model):
 class MothLocations(models.Model):
     name = models.CharField(max_length=20)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 class MothWaipoints(models.Model):
