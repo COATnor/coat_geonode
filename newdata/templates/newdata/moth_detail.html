@@ -19,38 +19,6 @@
 {% block body_outer %}
     {% include "newdata/newdata_ol3_map.html" %}
 
-<div class="row">
-
-
-
-    <div class="col-md-8">
-        <!--<div class="col-8">
-            <div id="map">
-                <script type="text/javascript">
-
-                    function main_map_init(map, options) {
-                        var geojsonPointLayer = new L.GeoJSON.AJAX("{% url 'mothgeojson' %}", {
-                            onEachFeature:function(feature, layer) {
-                                layer.bindPopup(feature.properties.name.toString()+'<br><img src="'
-                                 + feature.properties.photo + '" /><br><a href="'+ feature.properties.institutional_link+'">Institution Link</a>'+
-                                '<br><a href='+ feature.properties.social_link.toString()+'>Social Link</a>');
-                            }
-                        });
-                        map.setView([63.43, 10.395], 5)
-                        geojsonPointLayer.addTo(map)
-                    }
-                </script>
-            </div>
-        </div>-->
-
-
-        <div id="embedded_map" class="mrg-btm">
-          <div id="preview_map"></div>
-        </div>
-    </div>
-</div>
-
-
     <script>
         var geojsonFormat = new ol.format.GeoJSON();
         function filter_location(location) {
@@ -92,6 +60,83 @@
             });
         }
     </script>
+
+
+<div class="container-fluid">
+    <hr class="">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="">Hello.</h3>
+                </div>
+                 {% for loc in mothloc %}
+                    <div>
+                        <button onclick="filter_location('{{ loc }}');">{{ loc }}  </button>
+                    </div>
+                 {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="">Hello.</h3>
+                </div>
+
+                <div id="embedded_map" class="mrg-btm">
+                    <div id="preview_map"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="">Hello.</h3>
+                </div>
+                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pharetra
+                    varius quam sit amet vulputate. Quisque mauris augue, molestie tincidunt
+                    condimentum vitae, gravida a libero. Aenean sit amet felis dolor, in sagittis
+                    nisi. Sed ac orci quis tortor imperdiet venenatis. Duis elementum auctor
+                    accumsan. Aliquam in felis sit amet augue.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+
+    <div class="col-md-8">
+        <!--<div class="col-8">
+            <div id="map">
+                <script type="text/javascript">
+
+                    function main_map_init(map, options) {
+                        var geojsonPointLayer = new L.GeoJSON.AJAX("{% url 'mothgeojson' %}", {
+                            onEachFeature:function(feature, layer) {
+                                layer.bindPopup(feature.properties.name.toString()+'<br><img src="'
+                                 + feature.properties.photo + '" /><br><a href="'+ feature.properties.institutional_link+'">Institution Link</a>'+
+                                '<br><a href='+ feature.properties.social_link.toString()+'>Social Link</a>');
+                            }
+                        });
+                        map.setView([63.43, 10.395], 5)
+                        geojsonPointLayer.addTo(map)
+                    }
+                </script>
+            </div>
+        </div>-->
+
+
+        <div id="embedded_map" class="mrg-btm">
+          <div id="preview_map"></div>
+        </div>
+    </div>
+</div>
+
+
+
 <!--
 alert(this.url);
 alert(response.features[1].properties['waypoint_name']);
@@ -120,10 +165,5 @@ alert(response.features[1].properties['waypoint_name']);
         }
     </script>
 -->
-    {% for loc in mothloc %}
-        <div class="col-md-4">
-            <button onclick="filter_location('{{ loc }}');">{{ loc }}  </button>
-        </div>
-    {% endfor %}
 
 {% endblock %}
