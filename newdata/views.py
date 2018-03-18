@@ -32,6 +32,7 @@ from .models import MothLocations, MothFileUpload, MothUploadEvents, MothWaipoin
 from .serializers import MothLocationSerializer, MothFileUploadSerializer
 import csv
 import datetime
+import json
 
 
 @csrf_exempt
@@ -206,4 +207,5 @@ def moth_geojson_filtered(request, location):
         filtering moth data as geojson based on location button pressed
     """
     filtered_waypoints_geojson = serialize('geojson', MothWaipoints.objects.filter(location_name=location))
-    return HttpResponse(filtered_waypoints_geojson, content_type='json')
+    filtered_records = serialize('json', MothRecords.objects.filter(location=location))
+    return HttpResponse(json.dumps({'way':filtered_waypoints_geojson, 'rec':filtered_records}))
