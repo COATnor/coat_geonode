@@ -21,6 +21,35 @@
 
     <script>
         var geojsonFormat = new ol.format.GeoJSON();
+
+        function show_data(waypoint) {
+
+            $.ajax({
+                type: "POST",
+                url: 'newdata/mothwaypoints/'+waypoint+'/',
+                data: {waypoint: waypoint},
+                dataType: 'json',
+                success: function (data) {
+
+                    var new_records = data['records'];
+                    var parsed = JSON.parse(new_records)
+
+                    div_rec = document.getElementById('new_records');
+                    div_rec.innerHTML = '';
+
+                    for (i = 0; i < new_records.length; i++) {
+                        var newtr = document.createElement('tr');
+                        div_rec.appendChild(newtr);
+
+                        newtr.innerHTML = '<td>'+ parsed[i]['fields']['alt']+'</td>'+'<td>'+ parsed[i]['fields']['ep'] +'</td>'+'<td>'+ parsed[i]['fields']['opl'] +'</td>'+'<td>'+  parsed[i]['fields']['opint']+'</td>'+'<td>'+  parsed[i]['fields']['opdark']+'</td>'+'<td>'+ parsed[i]['fields']['opsum'] +'</td>'+'<td>'+ parsed[i]['fields']['agr'] +'</td>'+'<td>'+  parsed[i]['fields']['obs']+'</td>'+'<td>'+  parsed[i]['fields']['branches']+'</td>' +'<td>'+  parsed[i]['fields']['notes']+'</td>'
+                    }
+
+
+                }
+                });
+
+        }
+
         function filter_location(location) {
             $.ajax({
                 type: "POST",
@@ -28,9 +57,9 @@
                 dataType: 'json',
                 success: function (response) {
 
-
                     ways = response['way'];
                     records = response['rec'];
+
 
                     new_features = geojsonFormat.readFeatures(ways,
                         {featureProjection:"EPSG:3857"});
@@ -54,10 +83,17 @@
 
                     div = document.getElementById('waypoints');
                     div.innerHTML = '';
+                    try {
+                        div_rec.innerHTML = '';
+                    } catch (e) {}
+
                     for (i = 0; i < new_features.length; i++) {
                         var newdiv = document.createElement('div');
                         div.appendChild(newdiv);
-                        newdiv.innerHTML = '<button class="btn btn-default btn-block">' + new_features[i].get('waypoint_name') + '</button>'
+                        name = new_features[i].get('waypoint_name');
+                        id = new_features[i].get('waypoint_id');
+
+                        newdiv.innerHTML = '<button class="btn btn-default btn-block" onclick="show_data(\''+ name + '\')">' + name + '</button>'
 
                     }
 
@@ -92,6 +128,26 @@
                 <div id="embedded_map" class="mrg-btm">
                     <div id="preview_map"></div>
                 </div>
+
+                <table class="table">
+                    <thead>
+                      <tr>
+                          <th>alt</th>
+                          <th>ep</th>
+                          <th>opl</th>
+                          <th>opint</th>
+                          <th>opdark</th>
+                          <th>opsum</th>
+                          <th>agr</th>
+                          <th>obs</th>
+                          <th>branches</th>
+                          <th>notes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="new_records">
+
+                    </tbody>
+                </table>
 
             </div>
         </div>
@@ -143,7 +199,7 @@
 
 
 <!--
-
+alert(Object.keys(new_records));
  layersource.set('url', this.url);
 alert(this.url);
 alert(response.features[1].properties['waypoint_name']);

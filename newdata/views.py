@@ -189,6 +189,7 @@ def moth_detail(request):
     mothdata = MothRecords.objects.all()
     mothlocations = MothLocations.objects.all()
     mothwaypoints = MothWaipoints.objects.all()
+
     return render_to_response("newdata/moth_detail.html",
                                RequestContext(request, {'mothdata': mothdata,
                                                         'mothloc': mothlocations,
@@ -202,10 +203,23 @@ def moth_geojson(request):
     waypoints_as_geojson = serialize('geojson', MothWaipoints.objects.all())
     return HttpResponse(waypoints_as_geojson, content_type='json')
 
+def moth_waypoints_records(request, waypoint):
+    """
+               serializing moth data filtered on waypoints
+    """
+
+    moth_records_filtered = serialize('json', MothRecords.objects.filter(waypoint_name=waypoint))
+    return JsonResponse({'records':moth_records_filtered})
+
 def moth_geojson_filtered(request, location):
     """
         filtering moth data as geojson based on location button pressed
     """
-    filtered_waypoints_geojson = serialize('geojson', MothWaipoints.objects.filter(location_name=location))
-    filtered_records = serialize('json', MothRecords.objects.filter(location=location))
-    return HttpResponse(json.dumps({'way':filtered_waypoints_geojson, 'rec':filtered_records}))
+    if request.POST:
+        waypoint = request.POST['waypoint']
+        moth_records_filtered = serialize('json', MothRecords.objects.filter(waypoint_name=waypoint))
+        return HttpResponse(json.dumps({'records': moth_records_filtered}))
+    else:
+        filtered_waypoints_geojson = serialize('geojson', MothWaipoints.objects.filter(location_name=location))
+        filtered_records = serialize('json', MothRecords.objects.filter(location=location))
+        return HttpResponse(json.dumps({'way':filtered_waypoints_geojson, 'rec':filtered_records}))
