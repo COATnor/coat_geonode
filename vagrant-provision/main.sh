@@ -5,7 +5,7 @@ sudo apt-get install -y python-pip git;
 pip install --upgrade pip;
 
 cd /vagrant/coat_geonode;
-git clone -b 2.6.x https://github.com/GeoNode/geonode.git;
+git clone -b 2.8.0 https://github.com/GeoNode/geonode.git;
 # install manually because pip can not install binary dependencies
 sudo apt-get install python-shapely -y;
 sudo pip install -e geonode && sudo pip install -r geonode/requirements.txt;

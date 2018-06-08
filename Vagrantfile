@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # Ubuntu 64 bit
   config.vm.box = "xenial64"
   config.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
-  config.vm.hostname = "coat"
+  config.vm.hostname = "newcoat"
 
   # synced folder
   config.vm.synced_folder ".", "/vagrant/coat_geonode"
